@@ -17,3 +17,12 @@ body, html {
     height: 100px;
     padding: 15px;
 }
+
+blockquote {
+    background-color: #fff;
+    border-left: 5px solid #465db1 !important;
+}
+
+.jumbotron p {
+    font-size: 18px !important;
+}
