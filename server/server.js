@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({	extended: true })); // support encoded bodies
 var questions = [];
 var connections = [];
 var timetable = [];
+var timerTarget = 1;
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -47,6 +48,18 @@ io.on('connection', function(socket) {
         });
 
     });
+    socket.on('timer.get', function () {
+        if (socket.user) {
+            socket.emit('timer', timerTarget);
+        }
+    });
+    socket.on('timer.set', function (target) {
+        if (socket.user) {
+            timerTarget = target;
+            console.log(clk.blue.bold(socket.user) + clk.blue(' has updated countdown timer'));
+            broadcastToAuthed('timer', target);
+        }
+    });
     socket.on('timetable.get', function () {
         if(socket.user) {
             console.log(clk.blue.bold(socket.user) + clk.blue(' requested updated timetable'));
@@ -70,6 +83,11 @@ io.on('connection', function(socket) {
             db.run('DELETE FROM timetable WHERE event = ? AND startTime = ?', [event.event, event.startTime], function () {
                 broadcastToAuthed('timetable', {timetable: timetable});
             });
+        }
+    });
+    socket.on('questions.get', function () {
+        if (socket.user) {
+            socket.emit('questions.list', {questions: questions});
         }
     });
 });

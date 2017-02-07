@@ -1,0 +1,19 @@
+.login-container
+    form.login-form-container(ng-submit="login()")
+        .login-form
+            img(src="http://imgur.com/jY2FwOe.png")
+            .card
+                .text-center
+                    h4 Login
+                .form-group(ng-class="{'has-error': error}")
+                    input.form-control(name="username" type="text" placeholder="Username" ng-model="user.username"
+                    ng-change="error = false" required)
+                .form-group(ng-class="{'has-error': error}")
+                    input.form-control(name="password" type="password" placeholder="Password" ng-model="user.password"
+                    ng-change="error = false" required)
+                .form-group
+                    button.btn.btn-primary.btn-block.btn-lg(type="submit" ng-disabled="working")
+                        i.fa.fa-sign-in(ng-show="!working")
+                        i.fa.fa-cog.fa-spin(ng-show="working")
+                        |  Logi sisse
+            .footer.text-center: p.text-muted Powered by #[i.fa.fa-heart] and #[i.fa.fa-coffee]
